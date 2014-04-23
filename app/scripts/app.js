@@ -1,11 +1,14 @@
 'use strict';
 
 angular
-  .module('declutterAngularYoApp', [
+  .module('declutter', [
     'ngCookies',
     'ngResource',
     'ngSanitize',
-    'ngRoute'
+    'ngRoute',
+    'ngStorage',
+    'angularMoment',
+    'ionic'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -16,4 +19,12 @@ angular
       .otherwise({
         redirectTo: '/'
       });
+angular.element(document).ready(function() {
+  if (window.cordova !== undefined) {
+    document.addEventListener('deviceready', function() {
+      angular.bootstrap(document, ['declutter']);
+    }, false);
+  } else {
+    angular.bootstrap(document, ['declutter']);
+  }
   });
