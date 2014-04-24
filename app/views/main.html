@@ -1,14 +1,25 @@
 <ion-header-bar>
   <h1 class="title">Declutter</h1>
-  <a ng-click="add()" class="button button-positive icon-left ion-camera">
-    Add
-  </a>
+  <button class="button button-icon icon ion-plus-circled" ng-click="add()"></button>
 </ion-header-bar>
 <ion-content>
-  <ion-list item-type="item-thumbnail-left" can-delete="true">
-    <ion-item ng-repeat="thing in things" ng-click="edit($index)">
-      <img ng-src="{{ thing.image }}">
-      <h2>{{thing.title}}</h2>
+  <div ng-hide="things">
+    <p>Time to clean up!</p>
+  </div>
+  <ion-list item-type="item" can-delete="true" class="thing-list">
+    <ion-item ng-repeat="(id,thing) in things | orderBy:'created'">
+      <div ng-click="edit(id)" class="image-container">
+        <img ng-src="{{ thing.image }}">
+        <div class="title">
+          <h2>{{thing.title}}</h2>
+          <p>
+            Added <span am-time-ago="thing.created"></span><span ng-show="thing.remindDate">, reminder due in <span am-time-ago="thing.remindDate"></span></span>
+          </p>
+        </div>
+      </div>
     </ion-item>
   </ion-list>
+  <button ng-click="add()" class="button button-thing-add icon-left ion-plus-circled">
+    Add more stuff
+  </button>
 </ion-content>

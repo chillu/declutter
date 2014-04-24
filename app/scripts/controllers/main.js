@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('declutter')
-  .controller('MainCtrl', function ($scope, $location, Things, camera) {
-    $scope.things = Things;
-    $scope.$watch('things')
+  .controller('MainCtrl', function ($scope, $location, thingsCollection) {
+    $scope.things = thingsCollection;
+    $scope.$watch('things');
 
     $scope.add = function() {
       $location.path('/add');

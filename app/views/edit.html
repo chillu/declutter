@@ -1,27 +1,36 @@
 <ion-header-bar>
-  <a ng-click="back()" class="button icon-left ion-chevron-left button-clear button-dark">Back</a>
-  <h1 class="title">Declutter</h1>
+    <a ng-click="back()" class="button icon-left ion-chevron-left button-clear button-dark">Back</a>
+    <h1 class="title">Declutter</h1>
 </ion-header-bar>
 <ion-content>
-    <div class="list">
-      <div class="item">
-        <a ng-click="getPicture()" class="picture-frame">
-            <img ng-src="{{thing.image}}" alt="{{thing.title}}" ng-showif="thing.image">
-            <span ng-hideif="image">Take picture</span>
-        </a>
-        <a ng-hideif="image">... or add one from your library</a>
-      </div>
-      <label class="item item-input">
-        <input type="text" placeholder="Title (optional)" name="title" ng-model="thing.title">
-      </label>
-      <div class="item item-input item-select">
-        <div class="input-label">
-          Remind me
+    <form name="editform">
+        <div class="list">
+            <div class="item item-input" ng-hide="thing.image">
+                <button ng-click="getPicture({sourceType: navigator.camera.PictureSourceType.CAMERA})" class="button">
+                    Take a photo
+                </button>
+                <button ng-click="getPicture({sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY})" class="button">
+                    Choose from library
+                </button>
+            </div>
+            <div class="item image-container" ng-show="thing.image">
+                <img ng-src="{{thing.image}}" alt="{{thing.title}}" ng-show="thing.image">
+            </div>
+            <label class="item item-input">
+                <input type="text" placeholder="Title (optional)" name="title" ng-model="thing.title">
+            </label>
+            <div class="item item-input item-select" ng-hide="thing.id">
+                <div class="input-label">
+                    Remind me
+                </div>
+                <select ng-model="thing.remindDate" ng-options="o.value as o.title for o in remindOpts"></select>
+            </div>
+            <button ng-click="save()" class="button button-full button-positive">
+                <span>Save</span>
+            </button>
+            <button ng-click="delete()" class="button button-full button-assertive" ng-show="thing.id">
+                <span>Delete</span>
+            </button>
         </div>
-        <select ng-model="thing.remindDate" ng-options="o.value as o.title for o in remindOpts"></select>
-      </div>
-      <button ng-click="save()" class="button button-full button-positive">
-        <span>Save</span>
-      </button>
-    </div>
+    </form>
 </ion-content>
