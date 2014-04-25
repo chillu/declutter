@@ -12,7 +12,7 @@ gulp.task('styles', function () {
             style: 'expanded'
         }))
         .pipe($.autoprefixer('last 1 version'))
-        .pipe(gulp.dest('.tmp/styles'))
+        .pipe(gulp.dest('app/styles'))
         .pipe($.size());
 });
 
@@ -69,7 +69,7 @@ gulp.task('phonegap', function () {
 });
 
 gulp.task('clean', function () {
-    return gulp.src(['.tmp', 'www'], { read: false }).pipe($.clean());
+    return gulp.src(['www'], { read: false }).pipe($.clean());
 });
 
 gulp.task('build', ['html', 'images', 'fonts', 'phonegap']);
@@ -83,7 +83,6 @@ gulp.task('connect', function () {
     var app = connect()
         .use(require('connect-livereload')({ port: 35729 }))
         .use(connect.static('app'))
-        .use(connect.static('.tmp'))
         .use(connect.directory('app'));
 
     require('http').createServer(app)
@@ -121,7 +120,6 @@ gulp.task('watch', ['connect', 'serve'], function () {
 
     gulp.watch([
         'app/*.html',
-        '.tmp/styles/**/*.css',
         'app/scripts/**/*.js',
         'app/images/**/*'
     ]).on('change', function (file) {
