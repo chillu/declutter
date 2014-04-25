@@ -27,10 +27,11 @@ gulp.task('html', ['styles', 'scripts'], function () {
     var jsFilter = $.filter('**/*.js');
     var cssFilter = $.filter('**/*.css');
 
-    return gulp.src('app/*.html')
+    return gulp.src('app/**/*.html')
         .pipe($.useref.assets())
         .pipe(jsFilter)
-        .pipe($.uglify())
+        .pipe($.ngmin())
+        .pipe($.uglify({mangle: false}))
         .pipe(jsFilter.restore())
         .pipe(cssFilter)
         .pipe($.csso())
@@ -60,11 +61,18 @@ gulp.task('fonts', function () {
         .pipe($.size());
 });
 
+gulp.task('phonegap', function () {
+    return gulp.src('app/res/**/*')
+        .pipe(gulp.dest('www/res'))
+        .pipe(gulp.src('app/config.xml'))
+        .pipe(gulp.dest('www'));
+});
+
 gulp.task('clean', function () {
     return gulp.src(['.tmp', 'www'], { read: false }).pipe($.clean());
 });
 
-gulp.task('build', ['html', 'images', 'fonts']);
+gulp.task('build', ['html', 'images', 'fonts', 'phonegap']);
 
 gulp.task('default', ['clean'], function () {
     gulp.start('build');
