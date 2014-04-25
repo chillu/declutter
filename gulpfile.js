@@ -125,3 +125,7 @@ gulp.task('watch', ['connect', 'serve'], function () {
     gulp.watch('app/images/**/*', ['images']);
     gulp.watch('bower.json', ['wiredep']);
 });
+
+gulp.task('icons', $.shell.task([
+  './icon-generator.sh resources/logo/logo.svg resources/logo/splash.svg "#409e9f" app'
+]));

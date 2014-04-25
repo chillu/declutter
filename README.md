@@ -11,3 +11,4 @@
  * Build the project: `gulp build`
  * Run a local webserver: `gulp watch`
  * Compile phonegap packages: `phonegap build`
+ * Compile icons: `gulp icons`

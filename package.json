@@ -1,8 +1,9 @@
 {
   "name": "declutter",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "dependencies": {},
   "devDependencies": {
+    "bower": "*",
     "connect": "^2.14.4",
     "connect-livereload": "^0.4.0",
     "gulp": "^3.6.0",
@@ -24,7 +25,8 @@
     "jshint-stylish": "^0.1.5",
     "opn": "^0.1.1",
     "wiredep": "^1.4.3",
-    "gulp-ngmin": "^0.2.0"
+    "gulp-ngmin": "^0.2.0",
+    "gulp-shell": "^0.2.4"
   },
   "engines": {
     "node": ">=0.10.0"
