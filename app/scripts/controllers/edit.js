@@ -5,6 +5,8 @@ angular.module('declutter')
     $scope,
     $routeParams,
     $location,
+    $timeout,
+    $window,
     uidGenerator,
     userPreferences,
     thingsCollection,
@@ -12,8 +14,11 @@ angular.module('declutter')
     fileSystem,
     moment
   ) {
-    // Show grant dialog if required
-    fileSystem.requestFileSystem();
+    if (angular.isDefined($window.webkitStorageInfo)) {
+      $timeout(function() {
+        fileSystem.requestQuota(50);
+      }, 1000);
+    }
 
     $scope.things = thingsCollection;
     $scope.$watch('things');
@@ -74,13 +79,15 @@ angular.module('declutter')
           var origFileName = (angular.isObject(images[0])) ? images[0].name : images[0],
             fileExt = origFileName.split('.').pop(),
             fileName = uidGenerator.generate() + '.' + fileExt;
-          fileSystem.writeFile(images[0], fileName).then(function(fileEntry) {
-            $scope.thing.image = fileEntry.toURL();
-          });
+          fileSystem.writeBlob(fileName, images[0]).then(function() {
+            fileSystem.getFileEntry(fileName).then(function(fileEntry) {
+              $scope.thing.image = fileEntry.toURL();
+            })
+            .catch(function(err) {console.log(err);});
+          })
+          .catch(function(err) {console.log(err);});
         })
-        .catch(function(err) {
-          console.log(err);
-        });
+        .catch(function(err) {console.log(err);});
     };
 
     $scope.save = function() {

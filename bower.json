@@ -11,7 +11,8 @@
     "angular-route": "1.2.15",
     "ionic": "1.0.0-beta.1",
     "ngstorage": "~0.3.0",
-    "angular-moment": "~0.7.0"
+    "angular-moment": "~0.7.0",
+    "angular-filesystem": "https://github.com/chillu/angular-filesystem.git"
   },
   "devDependencies": {
     "angular-mocks": "1.2.15",

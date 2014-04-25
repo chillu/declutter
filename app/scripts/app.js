@@ -11,6 +11,7 @@ angular
     'ngSanitize',
     'ngRoute',
     'ngStorage',
+    'fileSystem',
     'angularMoment',
     'ionic'
   ])
@@ -71,111 +72,6 @@ angular
       $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image\/|filesystem:/);
     }
   ])
-  .factory('fileSystem', function ($rootScope, $window, $q) {
-    $window.requestFileSystem  = $window.requestFileSystem || $window.webkitRequestFileSystem;
-    $window.resolveLocalFileSystemURL  = $window.resolveLocalFileSystemURL || $window.webkitResolveLocalFileSystemURL;
-    return {
-      /**
-       * @param  String url
-       * @return Promise with a File argument.
-       */
-      getFileFromFileSystemURL: function(url) {
-        var deferred = $q.defer();
-        $window.resolveLocalFileSystemURL(
-          url,
-          function(fileEntry) {
-            fileEntry.file(
-              function(file) {
-                deferred.resolve(file);
-              },
-              function(err) {
-                console.log(err);
-                deferred.reject(err);
-              }
-            );
-          },
-          function(err) {
-            console.log(err);
-            deferred.reject(err);
-          }
-        );
-        return deferred.promise;
-      },
-      /**
-       * @param File file
-       * @param String fileName
-       * @return Promise with a FileEntry argument.
-       */
-      writeFile: function(file, fileName) {
-        return this.requestFileSystem()
-          .then(function(fs) {
-            var deferred = $q.defer();
-            fs.root.getFile(fileName, {create: true}, function (fileEntry) {
-              fileEntry.createWriter(
-                function (fileWriter) {
-                  fileWriter.onwriteend = function() {
-                    deferred.resolve(fileEntry);
-                  };
-                  fileWriter.onerror =  function(err) {
-                    console.log(err);
-                    deferred.reject(err);
-                  };
-                  fileWriter.write(file);
-                },
-                function(err) {
-                  console.log(err);
-                  deferred.reject(err);
-                }
-              );
-            });
-            return deferred.promise;
-          });
-      },
-      requestFileSystem: function(requestedBytes) {
-        var deferred = $q.defer();
-        requestedBytes = requestedBytes || 50 * 1024 * 1024;
-
-        // Request quota in chrome, or simply use cordova wrapper
-        if(!angular.isUndefined($window.webkitPersistentStorage)) {
-          $window.webkitPersistentStorage.requestQuota(
-            $window.PERSISTENT,
-            requestedBytes,
-            function(grantedBytes) {
-              $window.requestFileSystem(
-                $window.PERSISTENT,
-                grantedBytes,
-                function(fs) {
-                  $rootScope.$apply(deferred.resolve(fs)); //force angular to resolve promise
-                },
-                function(err) {
-                  console.log(err);
-                  $rootScope.$apply(deferred.reject(err)); //force angular to resolve promise
-                }
-              );
-            },
-            function(err) {
-              console.log(err);
-              $rootScope.$apply(deferred.reject(arguments)); //force angular to resolve promise
-            }
-          );
-        } else {
-          $window.requestFileSystem(
-            $window.PERSISTENT,
-            requestedBytes,
-            function (fs) {
-              $rootScope.$apply(deferred.resolve(fs)); //force angular to resolve promise
-            },
-            function (err) {
-              console.log(err);
-              $rootScope.$apply(deferred.reject(err)); //force angular to resolve promise
-            }
-          );
-        }
-
-        return deferred.promise;
-      }
-    };
-  })
   .factory('camera', function($rootScope, $q, fileSystem) {
     return {
       supportsCamera: function() {
@@ -189,7 +85,8 @@ angular
        * @return Promise. Success returns an array of HTML5 File objects.
        */
       getPicture: function(mode, options) {
-        var deferred = $q.defer(), options = options || {};
+        var deferred = $q.defer();
+        options = options || {};
         if (this.supportsCamera()) {
           var defaultOptions = {
             quality: 40,
@@ -211,7 +108,7 @@ angular
           // open camera via cordova
           navigator.camera.getPicture(
             function(fileURI) {
-              fileSystem.getFileFromFileSystemURL(fileURI).then(function(file) {
+              fileSystem.getFileFromLocalFileSystemURL(fileURI).then(function(file) {
                 deferred.resolve([file]);
               });
             },
