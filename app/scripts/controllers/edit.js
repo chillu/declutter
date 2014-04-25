@@ -26,7 +26,6 @@ angular.module('declutter')
       };
     }
 
-
     var preferredDate = moment().hour(userPreferences.remindHour).minute(0).second(0).millisecond(0);
 
     $scope.remindOpts = [
@@ -68,15 +67,16 @@ angular.module('declutter')
       return camera.supportsCamera();
     };
 
-    // can be a button click or anything else
-    $scope.getPicture = function() {
-      camera.getPicture()
+    $scope.getPicture = function(mode) {
+      camera.getPicture(mode)
         .then(function(images) {
-          fileSystem.requestFileSystem()
-            .then(function(fs) {
-              console.debug(fs);
-            });
-          $scope.thing.image = images[0];
+          // Create a random file name to avoid any later overwrites
+          var origFileName = (angular.isObject(images[0])) ? images[0].name : images[0],
+            fileExt = origFileName.split('.').pop(),
+            fileName = uidGenerator.generate() + '.' + fileExt;
+          fileSystem.writeFile(images[0], fileName).then(function(fileEntry) {
+            $scope.thing.image = fileEntry.toURL();
+          });
         })
         .catch(function(err) {
           console.log(err);

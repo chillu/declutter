@@ -6,10 +6,10 @@
     <form name="editform">
         <div class="list">
             <div class="item item-input" ng-hide="thing.image">
-                <button ng-click="getPicture({sourceType: navigator.camera.PictureSourceType.CAMERA})" class="button">
+                <button ng-click="getPicture('CAMERA')" class="button">
                     Take a photo
                 </button>
-                <button ng-click="getPicture({sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY})" class="button">
+                <button ng-click="getPicture('PHOTOLIBRARY')" class="button">
                     Choose from library
                 </button>
             </div>

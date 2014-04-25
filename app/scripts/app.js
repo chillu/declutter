@@ -1,5 +1,9 @@
 'use strict';
 
+// window.onerror = function(message, url, lineNumber) {
+//   console.log('Error: '+message+' in '+url+' at line '+lineNumber);
+// };
+
 angular
   .module('declutter', [
     'ngCookies',
@@ -61,36 +65,110 @@ angular
       }
     };
   })
-  .factory('fileSystem', function ($window, $q) {
+  .config([
+    '$compileProvider',
+    function($compileProvider) {
+      $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image\/|filesystem:/);
+    }
+  ])
+  .factory('fileSystem', function ($rootScope, $window, $q) {
     $window.requestFileSystem  = $window.requestFileSystem || $window.webkitRequestFileSystem;
+    $window.resolveLocalFileSystemURL  = $window.resolveLocalFileSystemURL || $window.webkitResolveLocalFileSystemURL;
     return {
+      /**
+       * @param  String url
+       * @return Promise with a File argument.
+       */
+      getFileFromFileSystemURL: function(url) {
+        var deferred = $q.defer();
+        $window.resolveLocalFileSystemURL(
+          url,
+          function(fileEntry) {
+            fileEntry.file(
+              function(file) {
+                deferred.resolve(file);
+              },
+              function(err) {
+                console.log(err);
+                deferred.reject(err);
+              }
+            );
+          },
+          function(err) {
+            console.log(err);
+            deferred.reject(err);
+          }
+        );
+        return deferred.promise;
+      },
+      /**
+       * @param File file
+       * @param String fileName
+       * @return Promise with a FileEntry argument.
+       */
+      writeFile: function(file, fileName) {
+        return this.requestFileSystem()
+          .then(function(fs) {
+            var deferred = $q.defer();
+            fs.root.getFile(fileName, {create: true}, function (fileEntry) {
+              fileEntry.createWriter(
+                function (fileWriter) {
+                  fileWriter.onwriteend = function() {
+                    deferred.resolve(fileEntry);
+                  };
+                  fileWriter.onerror =  function(err) {
+                    console.log(err);
+                    deferred.reject(err);
+                  };
+                  fileWriter.write(file);
+                },
+                function(err) {
+                  console.log(err);
+                  deferred.reject(err);
+                }
+              );
+            });
+            return deferred.promise;
+          });
+      },
       requestFileSystem: function(requestedBytes) {
         var deferred = $q.defer();
         requestedBytes = requestedBytes || 50 * 1024 * 1024;
 
         // Request quota in chrome, or simply use cordova wrapper
-        if(!angular.isUndefined($window.webkitStorageInfo)) {
-          $window.webkitStorageInfo.requestQuota(
+        if(!angular.isUndefined($window.webkitPersistentStorage)) {
+          $window.webkitPersistentStorage.requestQuota(
             $window.PERSISTENT,
             requestedBytes,
             function(grantedBytes) {
               $window.requestFileSystem(
                 $window.PERSISTENT,
                 grantedBytes,
-                function(fs) {deferred.resolve(fs);},
-                function(err) {deferred.reject(err);}
+                function(fs) {
+                  $rootScope.$apply(deferred.resolve(fs)); //force angular to resolve promise
+                },
+                function(err) {
+                  console.log(err);
+                  $rootScope.$apply(deferred.reject(err)); //force angular to resolve promise
+                }
               );
             },
-            function() {
-              deferred.reject(arguments);
+            function(err) {
+              console.log(err);
+              $rootScope.$apply(deferred.reject(arguments)); //force angular to resolve promise
             }
           );
         } else {
           $window.requestFileSystem(
             $window.PERSISTENT,
             requestedBytes,
-            function (fs) {deferred.resolve(fs);},
-            function (err) {deferred.reject(err);}
+            function (fs) {
+              $rootScope.$apply(deferred.resolve(fs)); //force angular to resolve promise
+            },
+            function (err) {
+              console.log(err);
+              $rootScope.$apply(deferred.reject(err)); //force angular to resolve promise
+            }
           );
         }
 
@@ -98,25 +176,52 @@ angular
       }
     };
   })
-  .factory('camera', ['$rootScope', '$q', function($rootScope, $q) {
+  .factory('camera', function($rootScope, $q, fileSystem) {
     return {
       supportsCamera: function() {
         return (navigator.camera !== undefined);
       },
       /**
        * Captures a picture by camera, falling back to upload if not available.
-       * See http://mircozeiss.com/browser-fallback-for-running-phonegap-camera-plugin-on-localhost/
        *
+       * @param String mode CAMERA or PHOTOLIBRARY
        * @param Object options
-       * @return Promise. Success returns an array Of base64 JPEG image strings.
+       * @return Promise. Success returns an array of HTML5 File objects.
        */
-      getPicture: function(options) {
+      getPicture: function(mode, options) {
+        var deferred = $q.defer(), options = options || {};
+        if (this.supportsCamera()) {
+          var defaultOptions = {
+            quality: 40,
+            sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+            destinationType: navigator.camera.DestinationType.FILE_URI,
+            allowEdit: true,
+            targetWidth: 500,
+            targetHeight: 500
+          };
+          if(mode === 'CAMERA') {
+            options.sourceType = navigator.camera.PictureSourceType.CAMERA;
+          } else if(mode === 'PHOTOLIBRARY') {
+            options.sourceType = navigator.camera.PictureSourceType.PHOTOLIBRARY;
+          } else {
+            throw 'Invalid getPicture() mode: ' + mode;
+          }
+          options = angular.extend(defaultOptions, options);
 
-        // init $q
-        var deferred = $q.defer();
+          // open camera via cordova
+          navigator.camera.getPicture(
+            function(fileURI) {
+              fileSystem.getFileFromFileSystemURL(fileURI).then(function(file) {
+                deferred.resolve([file]);
+              });
+            },
+            function(message) {
+              deferred.reject(message);
+            },
+            options
+          );
 
-        if (!this.supportsCamera()) {
-
+        } else {
           // create file input without appending to DOM
           var fileInput = document.createElement('input');
           fileInput.setAttribute('type', 'file');
@@ -125,58 +230,10 @@ angular
           }
 
           fileInput.onchange = function() {
-            var images = [], i = 0;
-            angular.forEach(fileInput.files, function(file) {
-              var reader = new FileReader();
-              reader.readAsDataURL(file);
-              reader.onloadend = function () {
-                $rootScope.$apply(function() {
-                  i++;
-                  // strip beginning from string
-                  images.push(reader.result);
-                  if(i === fileInput.files.length) {
-                    deferred.resolve(images);
-                  }
-                });
-              };
-            });
+            deferred.resolve(fileInput.files);
           };
 
           fileInput.click();
-
-        } else {
-
-          // set some default options
-          var defaultOptions = {
-            quality: 40,
-            sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
-            destinationType: navigator.camera.DestinationType.DATA_URL,
-            allowEdit: true,
-            targetWidth: 500,
-            targetHeight: 500
-          };
-
-          // allow overriding the default options
-          options = angular.extend(defaultOptions, options);
-
-          // success callback
-          var success = function(imageData) {
-            $rootScope.$apply(function() {
-              deferred.resolve([imageData]);
-            });
-          };
-
-          // fail callback
-          var fail = function(message) {
-            $rootScope.$apply(function() {
-              window.alert(message);
-              deferred.reject(message);
-            });
-          };
-
-          // open camera via cordova
-          navigator.camera.getPicture(success, fail, options);
-
         }
 
         // return a promise
@@ -184,7 +241,7 @@ angular
 
       }
     };
-  }]);
+  });
 
 angular.element(document).ready(function() {
   if (window.cordova !== undefined) {
