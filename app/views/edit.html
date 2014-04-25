@@ -1,19 +1,21 @@
-<ion-header-bar>
-    <a ng-click="back()" class="button icon-left ion-chevron-left button-clear button-dark"></a>
+<ion-header-bar class="bar-positive">
+    <a ng-click="back()" class="button icon-left ion-chevron-left button-clear"></a>
     <h1 class="title" ng-hide="thing.id">Add</h1>
     <h1 class="title" ng-show="thing.id">Edit</h1>
-    <a ng-click="save()" class="button icon-left ion-checkmark button-clear button-dark"></a>
+    <a ng-click="save()" class="button icon-left ion-checkmark button-clear"></a>
 </ion-header-bar>
 <ion-content>
     <form name="editform">
         <div class="list">
             <div class="item item-input" ng-hide="thing.image">
-                <button ng-click="getPicture('CAMERA')" class="button">
-                    Take a photo
-                </button>
-                <button ng-click="getPicture('PHOTOLIBRARY')" class="button">
-                    Choose from library
-                </button>
+                <div class="button-bar">
+                    <button ng-click="getPicture('CAMERA')" class="button ion-camera">
+                        Take a photo
+                    </button>
+                    <button ng-click="getPicture('PHOTOLIBRARY')" class="button ion-images">
+                        Choose from library
+                    </button>
+                </div>
             </div>
             <div class="item image-container" ng-show="thing.image">
                 <img ng-src="{{thing.image}}" alt="{{thing.title}}" ng-show="thing.image">

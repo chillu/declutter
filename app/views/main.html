@@ -1,4 +1,4 @@
-<ion-header-bar>
+<ion-header-bar class="bar-positive">
   <h1 class="title">Declutter</h1>
   <button class="button button-icon icon ion-plus" ng-click="add()"></button>
 </ion-header-bar>
@@ -33,8 +33,9 @@
       </div>
     </ion-item>
     <div class="item">
-      <button ng-click="add()" class="button button-full button-thing-add ion-plus-circled">
-        Add more stuff
+      <button ng-click="add()" class="button button-full button-calm button-thing-add ion-plus-circled">
+        <span ng-show="things.length">Add more stuff</span>
+        <span ng-hide="things.length">Add some stuff</span>
       </button>
     </div>
   </ion-list>

@@ -1,5 +1,9 @@
 // bower:scss
 // endbower
+
+$positive: #409e9f;
+$calm: lighten($positive, 10%);
+
 @import "../bower_components/ionic/scss/ionic";
 
 
