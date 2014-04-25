@@ -1,6 +1,8 @@
 <ion-header-bar>
-    <a ng-click="back()" class="button icon-left ion-chevron-left button-clear button-dark">Back</a>
-    <h1 class="title">Declutter</h1>
+    <a ng-click="back()" class="button icon-left ion-chevron-left button-clear button-dark"></a>
+    <h1 class="title" ng-hide="thing.id">Add</h1>
+    <h1 class="title" ng-show="thing.id">Edit</h1>
+    <a ng-click="save()" class="button icon-left ion-checkmark button-clear button-dark"></a>
 </ion-header-bar>
 <ion-content>
     <form name="editform">

@@ -19,7 +19,7 @@
 .image-container {
     display: block;
     width: 100%;
-    height: 250px;
+    height: 220px;
     background-color: #aaa;
     overflow: hidden;
     position: relative;
@@ -47,10 +47,6 @@
     p {
         color: $light;
     }
-}
-
-.button-thing-add {
-    margin: 0 15px;
 }
 
 /* Responsive: Portrait tablets and up */
