@@ -21,11 +21,30 @@ angular.module('declutter')
       }, 1000);
     }
 
+    var findByKey = function(items, key, val) {
+      var match;
+      angular.forEach(items, function(item) {
+        if(!match && item[key] === val) {
+          match = item;
+        }
+      });
+      return match;
+    };
+
+    var deleteByKey = function(items, key, val) {
+      angular.forEach(items, function(item, i) {
+        if(item[key] === val) {
+          items.splice(i,1);
+        }
+      });
+    };
+
     $scope.things = thingsCollection;
     $scope.$watch('things');
 
+    // Set current item
     if($routeParams.id) {
-      $scope.thing = thingsCollection[$routeParams.id];
+      $scope.thing = findByKey(thingsCollection, 'id', $routeParams.id);
     } else {
       $scope.thing = {
         'created': moment()
@@ -92,10 +111,9 @@ angular.module('declutter')
     };
 
     $scope.save = function() {
-      if($routeParams.id) {
-        thingsCollection[$routeParams.id] = $scope.thing;
-      } else {
-        thingsCollection[uidGenerator.generate()] = $scope.thing;
+      if(!$scope.thing.id) {
+        $scope.thing.id = uidGenerator.generate();
+        $scope.things.push($scope.thing);
       }
 
       // Presist preferred reminder date as new preference

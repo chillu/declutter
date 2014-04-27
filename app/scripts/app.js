@@ -7,7 +7,6 @@
 angular
   .module('declutter', [
     'ngCookies',
-    'ngResource',
     'ngSanitize',
     'ngRoute',
     'ngStorage',
@@ -35,7 +34,7 @@ angular
   })
   .factory('thingsCollection', function($localStorage) {
     if($localStorage.things === undefined) {
-      $localStorage.things = {};
+      $localStorage.things = [];
     }
 
     return $localStorage.things;
