@@ -32,6 +32,15 @@ angular
         redirectTo: '/'
       });
   })
+  .filter('inPast', function(moment) {
+    return function(value) {
+      if (typeof value === 'undefined' || value === null) {
+        return '';
+      }
+      value = moment(value);
+      return value.isBefore(moment());
+    };
+  })
   .service('thingsCollection', function($localStorage, moment, uidGenerator, localNotification) {
     var self = this;
 

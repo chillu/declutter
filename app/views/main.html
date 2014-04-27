@@ -28,7 +28,9 @@
           <i class="icon icon-thing-edit ion-chevron-right"></i>
           <h2>{{thing.title}}</h2>
           <p ng-show="thing.remindDate">
-            <i class="icon ion-android-alarm"></i> <span am-time-ago="thing.remindDate"></span></span>
+            <i class="icon ion-android-alarm" ng-hide="thing.remindDate | inPast"></i>
+            <i class="icon ion-alert-circled" ng-show="thing.remindDate | inPast"></i>
+            <span am-time-ago="thing.remindDate"></span></span>
           </p>
         </div>
       </div>

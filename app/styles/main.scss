@@ -83,6 +83,11 @@ $calm: lighten($positive, 10%);
         float: right;
         line-height: 30px; // same as title size
     }
+
+    .icon-thing-remind {
+        color: white;
+        font-size: 30px;
+    }
 }
 
 .button-bar-image-trigger {
