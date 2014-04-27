@@ -4,6 +4,6 @@ www/
 .sass-cache
 app/bower_components
 app/styles/*.css
-platforms/
 plugins/
 _docs/
+platforms/ios/cordova/console.log
