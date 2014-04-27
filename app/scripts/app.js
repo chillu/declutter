@@ -14,23 +14,25 @@ angular
     'angularMoment',
     'ionic'
   ])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
+  .config(function ($stateProvider) {
+    $stateProvider
+      .state('index', {
+        url: '/',
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/edit/:id', {
+      .state('edit', {
+        url: '/edit/:id',
         templateUrl: 'views/edit.html',
         controller: 'EditCtrl'
       })
-      .when('/add', {
+      .state('add', {
+        url: '/add',
         templateUrl: 'views/edit.html',
         controller: 'EditCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
       });
+
+    // $urlRouterProvider.otherwise({redirectTo: '/'});
   })
   .filter('inPast', function(moment) {
     return function(value) {

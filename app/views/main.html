@@ -1,45 +1,46 @@
-<ion-header-bar class="bar-positive">
-  <h1 class="title">Declutter</h1>
-  <button class="button button-icon icon ion-plus" ng-click="add()"></button>
-</ion-header-bar>
-<ion-content>
-  <div ng-hide="things.items.length" class="intro padding">
-    <h2>Welcome!</h2>
-    <p>
-      Haven't used that snowboard in years?
-      Got a second TV gathering dust in the garage?
-      Declutter helps you identify things you don't need.
-    </p>
-    <p>
-      Get up, walk around your place and take photos of stuff you haven't used in a while.
-      You don't have to get rid of it just yet,
-      Declutter will send you a reminder when it's time to decide,
-      with some handy tips on simplifying your life.
-    </p>
-    <p>
-      Protip: Start with the big things!
-    </p>
-  </div>
-  <ion-list item-type="item" can-delete="true" class="thing-list">
-    <ion-item ng-repeat="thing in things.items | orderBy:'remindDate'">
-      <div ng-click="edit(thing.id)" class="image-container">
-        <img ng-src="{{ thing.image }}">
-        <div class="title">
-          <i class="icon icon-thing-edit ion-chevron-right"></i>
-          <h2>{{thing.title}}</h2>
-          <p ng-show="thing.remindDate">
-            <i class="icon ion-android-alarm" ng-hide="thing.remindDate | inPast"></i>
-            <i class="icon ion-alert-circled" ng-show="thing.remindDate | inPast"></i>
-            <span am-time-ago="thing.remindDate"></span></span>
-          </p>
-        </div>
-      </div>
-    </ion-item>
-    <div class="item">
-      <button ng-click="add()" class="button button-block button-positive button-outline button-thing-add ion-plus-circled">
-        <span ng-show="things.items.length">Add more stuff</span>
-        <span ng-hide="things.items.length">Add some stuff</span>
-      </button>
+<ion-view title="Edit">
+    <ion-nav-buttons side="right">
+      <button class="button button-icon icon ion-plus" ng-click="add()"></button>
+    </ion-nav-buttons>
+  <ion-content>
+    <div ng-hide="things.items.length" class="intro padding">
+      <h2>Welcome!</h2>
+      <p>
+        Haven't used that snowboard in years?
+        Got a second TV gathering dust in the garage?
+        Declutter helps you identify things you don't need.
+      </p>
+      <p>
+        Get up, walk around your place and take photos of stuff you haven't used in a while.
+        You don't have to get rid of it just yet,
+        Declutter will send you a reminder when it's time to decide,
+        with some handy tips on simplifying your life.
+      </p>
+      <p>
+        Protip: Start with the big things!
+      </p>
     </div>
-  </ion-list>
-</ion-content>
+    <ion-list item-type="item" can-delete="true" class="thing-list">
+      <ion-item ng-repeat="thing in things.items | orderBy:'remindDate'">
+        <div ng-click="edit(thing.id)" class="image-container">
+          <img ng-src="{{ thing.image }}">
+          <div class="title">
+            <i class="icon icon-thing-edit ion-chevron-right"></i>
+            <h2>{{thing.title}}</h2>
+            <p ng-show="thing.remindDate">
+              <i class="icon ion-android-alarm" ng-hide="thing.remindDate | inPast"></i>
+              <i class="icon ion-alert-circled" ng-show="thing.remindDate | inPast"></i>
+              <span am-time-ago="thing.remindDate"></span></span>
+            </p>
+          </div>
+        </div>
+      </ion-item>
+      <div class="item">
+        <button ng-click="add()" class="button button-block button-positive button-outline button-thing-add ion-plus-circled">
+          <span ng-show="things.items.length">Add more stuff</span>
+          <span ng-hide="things.items.length">Add some stuff</span>
+        </button>
+      </div>
+    </ion-list>
+  </ion-content>
+</ion-view>

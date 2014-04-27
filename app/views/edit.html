@@ -1,46 +1,45 @@
-<ion-header-bar class="bar-positive">
-    <a ng-click="back()" class="button icon-left ion-chevron-left button-clear"></a>
-    <h1 class="title" ng-hide="thing.id">Add</h1>
-    <h1 class="title" ng-show="thing.id">Edit</h1>
-    <a ng-click="delete()" class="button icon-left ion-ios7-trash button-clear"></a>
-</ion-header-bar>
-<ion-content>
-    <form name="editform">
-        <div class="list">
-            <div class="card item item-text-wrap energized-bg light padding" ng-show="thing.remindDate | inPast">
-              <i class="icon ion-alert-circled"></i>
-              Time to decide!
-            </div>
-            <div class="item item-input padding" ng-hide="thing.image">
-                <div class="image-trigger" ng-click="getPicture('CAMERA')">
-                    <i class="icon ion-camera"></i>
-                    <span class="image-trigger-camera">Take a photo</span>
-                    <a ng-click="getPicture('PHOTOLIBRARY')" class="image-trigger-library">
-                        ... or choose from library
-                    </a>
+<ion-view title="Edit">
+    <ion-nav-buttons side="right">
+      <button ng-click="delete()" class="button icon-left ion-ios7-trash button-clear" ng-show="thing.id"></button>
+    </ion-nav-buttons>
+    <ion-content>
+        <form name="editform" class="slide-in-left">
+            <div class="list">
+                <div class="card item item-text-wrap energized-bg light padding" ng-show="thing.remindDate | inPast">
+                  <i class="icon ion-alert-circled"></i>
+                  Time to decide!
+                </div>
+                <div class="item item-input padding" ng-hide="thing.image">
+                    <div class="image-trigger" ng-click="getPicture('CAMERA')">
+                        <i class="icon ion-camera"></i>
+                        <span class="image-trigger-camera">Take a photo</span>
+                        <a ng-click="getPicture('PHOTOLIBRARY')" class="image-trigger-library">
+                            ... or choose from library
+                        </a>
+                    </div>
+                </div>
+                <div class="item image-container" ng-show="thing.image">
+                    <img ng-src="{{thing.image}}" alt="{{thing.title}}" ng-show="thing.image">
+                </div>
+                <label class="item item-input">
+                    <input type="text" placeholder="Title (optional)" name="title" ng-model="thing.title">
+                </label>
+                <div class="item" ng-show="thing.id && thing.remindDate && !(thing.remindDate | inPast)">
+                    <i class="icon ion-android-alarm"></i> <span am-time-ago="thing.remindDate"></span>
+                    ({{thing.remindDate | amDateFormat:'dddd, MMMM Do YYYY, ha' }})
+                </div>
+                <div class="item item-input item-select" ng-show="!thing.id">
+                    <div class="input-label">
+                        Remind me
+                    </div>
+                    <select ng-model="thing.remindDate" ng-options="o.value as o.title for o in remindOpts"></select>
+                </div>
+                <div class="padding">
+                    <button ng-click="save()" class="button button-block button-outline button-positive">
+                        <span>Save</span>
+                    </button>
                 </div>
             </div>
-            <div class="item image-container" ng-show="thing.image">
-                <img ng-src="{{thing.image}}" alt="{{thing.title}}" ng-show="thing.image">
-            </div>
-            <label class="item item-input">
-                <input type="text" placeholder="Title (optional)" name="title" ng-model="thing.title">
-            </label>
-            <div class="item" ng-show="thing.id && thing.remindDate && !(thing.remindDate | inPast)">
-                <i class="icon ion-android-alarm"></i> <span am-time-ago="thing.remindDate"></span>
-                ({{thing.remindDate | amDateFormat:'dddd, MMMM Do YYYY, ha' }})
-            </div>
-            <div class="item item-input item-select" ng-show="!thing.id">
-                <div class="input-label">
-                    Remind me
-                </div>
-                <select ng-model="thing.remindDate" ng-options="o.value as o.title for o in remindOpts"></select>
-            </div>
-            <div class="padding">
-                <button ng-click="save()" class="button button-block button-outline button-positive">
-                    <span>Save</span>
-                </button>
-            </div>
-        </div>
-    </form>
-</ion-content>
+        </form>
+    </ion-content>
+</ion-view>
