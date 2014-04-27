@@ -51,6 +51,20 @@ $calm: lighten($positive, 10%);
     p {
         color: $light;
     }
+
+    .icon-thing-edit {
+        color: white;
+        float: right;
+        line-height: 30px; // same as title size
+    }
+}
+
+.button-bar-image-trigger {
+    height: 250px;
+}
+
+.button-large-icon:before {
+    font-size: 50px;
 }
 
 /* Responsive: Portrait tablets and up */

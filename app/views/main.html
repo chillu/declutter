@@ -21,19 +21,20 @@
     </p>
   </div>
   <ion-list item-type="item" can-delete="true" class="thing-list">
-    <ion-item ng-repeat="(id,thing) in things | orderBy:'created'">
-      <div ng-click="edit(id)" class="image-container">
+    <ion-item ng-repeat="thing in things | orderBy:'created'">
+      <div ng-click="edit(thing.id)" class="image-container">
         <img ng-src="{{ thing.image }}">
         <div class="title">
+          <i class="icon icon-thing-edit ion-chevron-right"></i>
           <h2>{{thing.title}}</h2>
-          <p>
-            Added <span am-time-ago="thing.created"></span><span ng-show="thing.remindDate">, reminder due in <span am-time-ago="thing.remindDate"></span></span>
+          <p ng-show="thing.remindDate">
+            <i class="icon ion-android-alarm"></i> <span am-time-ago="thing.remindDate"></span></span>
           </p>
         </div>
       </div>
     </ion-item>
     <div class="item">
-      <button ng-click="add()" class="button button-full button-calm button-thing-add ion-plus-circled">
+      <button ng-click="add()" class="button button-block button-positive button-outline button-thing-add ion-plus-circled">
         <span ng-show="things.length">Add more stuff</span>
         <span ng-hide="things.length">Add some stuff</span>
       </button>

@@ -16,8 +16,6 @@
         Ingo Schommer
     </author>
 
-    <gap:platform name="ios" />
-
     <!--
         Enable individual API permissions here.
         The "device" permission is required for the 'deviceready' event.
@@ -50,9 +48,6 @@
     <preference name="iosPersistentFileLocation" value="Library" />
     <preference name="AndroidPersistentFileLocation" value="Internal" />
 
-    <gap:plugin name="org.apache.cordova.camera" />
-    <gap:plugin name="org.apache.cordova.file" />
-
     <!-- Define app icon for each platform. -->
     <icon src="icon.png" />
     <icon src="res/icon/android/icon-36-ldpi.png"   gap:platform="android"    gap:density="ldpi" />
@@ -83,5 +78,11 @@
     <gap:splash src="res/screen/windows-phone/screen-portrait.jpg" gap:platform="winphone" />
 
     <access origin="http://127.0.0.1*"/> <!-- allow local pages -->
+
+    <!-- Remote PhoneGap building directives (not used at the moment) -->
+    <gap:platform name="ios" />
+    <gap:plugin name="org.apache.cordova.camera" />
+    <gap:plugin name="org.apache.cordova.file" />
+    <gap:plugin name="de.appplant.cordova.plugin.local-notification" />
 
 </widget>

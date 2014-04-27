@@ -7,6 +7,7 @@ angular.module('declutter')
     $location,
     $timeout,
     $window,
+    $ionicPopup,
     uidGenerator,
     userPreferences,
     thingsCollection,
@@ -108,9 +109,17 @@ angular.module('declutter')
     };
 
     $scope.delete = function() {
-      delete thingsCollection[$routeParams.id];
-
+      $ionicPopup.confirm({
+        title: 'Delete',
+        content: 'Are you sure you want to delete this?'
+      }).then(function(res) {
+        if(res) {
+          deleteByKey($scope.things, 'id', $routeParams.id);
       $location.path('/');
+        } else {
+          console.log('You are not sure');
+        }
+      });
     };
 
     $scope.back = function() {
