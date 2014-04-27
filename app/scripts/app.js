@@ -137,6 +137,9 @@ angular
 
       }
     };
+  })
+  .factory('localNotification', function($window) {
+    return angular.isDefined($window.plugin) ? $window.plugin.notification.local : null;
   });
 
 angular.element(document).ready(function() {

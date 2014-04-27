@@ -13,6 +13,7 @@ angular.module('declutter')
     thingsCollection,
     camera,
     fileSystem,
+    localNotification,
     moment
   ) {
     if (angular.isDefined($window.webkitStorageInfo)) {
@@ -39,6 +40,7 @@ angular.module('declutter')
       });
     };
 
+    $scope.supportsLocalNotification = (localNotification);
     $scope.things = thingsCollection;
     $scope.$watch('things');
 
@@ -51,9 +53,14 @@ angular.module('declutter')
       };
     }
 
+    // Set reminder date options
     var preferredDate = moment().hour(userPreferences.remindHour).minute(0).second(0).millisecond(0);
-
     $scope.remindOpts = [
+      {
+        'title': 'in a minute',
+        'alias': '20s',
+        'value': moment().add('seconds', 20)
+      },
       {
         'title': 'in a week',
         'alias': '1w',
@@ -114,9 +121,34 @@ angular.module('declutter')
       if(!$scope.thing.id) {
         $scope.thing.id = uidGenerator.generate();
         $scope.things.push($scope.thing);
+
+        // Set or update local notification reminder
+        if(localNotification) {
+          localNotification.cancel($scope.thing.id);
+          if($scope.thing.remindDate) {
+            var timeSpan = moment($scope.thing.created).from($scope.thing.remindDate, true),
+             title = $scope.thing.title || 'something';
+
+            $scope.thing.remindMessage = 'Time to decide! ' +
+               'It\'s been ' + timeSpan + ' since you added "' + title + '" to Declutter. ' +
+               'Keep it, or get rid of it?';
+
+            localNotification.add({
+              id: $scope.thing.id,
+              message: $scope.thing.remindMessage,
+              date: new Date(moment($scope.thing.remindDate)),
+              // autoCancel: true,
+              badge: 1
+            });
+
+            console.log('Adding/updating reminder for ' + $scope.thing.id + ' (' + moment($scope.thing.remindDate).format() + ')');  
+          } else {
+            delete $scope.thing.remindMessage;
+          }
+        }
       }
 
-      // Presist preferred reminder date as new preference
+      // Persist preferred reminder date as new preference
       angular.forEach($scope.remindOpts, function(remindOpt) {
         if(remindOpt.value === $scope.thing.remindDate) {
           userPreferences.remindOptAlias = remindOpt.alias;
@@ -132,8 +164,11 @@ angular.module('declutter')
         content: 'Are you sure you want to delete this?'
       }).then(function(res) {
         if(res) {
+          if(localNotification) {
+            localNotification.cancel($scope.thing.id);
+          }
           deleteByKey($scope.things, 'id', $routeParams.id);
-      $location.path('/');
+          $location.path('/');
         } else {
           console.log('You are not sure');
         }
