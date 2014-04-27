@@ -21,7 +21,7 @@
     </p>
   </div>
   <ion-list item-type="item" can-delete="true" class="thing-list">
-    <ion-item ng-repeat="thing in things.items | orderBy:'created'">
+    <ion-item ng-repeat="thing in things.items | orderBy:'remindDate'">
       <div ng-click="edit(thing.id)" class="image-container">
         <img ng-src="{{ thing.image }}">
         <div class="title">
