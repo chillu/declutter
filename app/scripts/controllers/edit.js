@@ -69,11 +69,13 @@ angular.module('declutter')
     ];
 
     // Preselect preferred option
-    angular.forEach($scope.remindOpts, function(remindOpt) {
-      if(remindOpt.alias === userPreferences.remindOptAlias) {
-        $scope.thing.remindDate = remindOpt.value;
-      }
-    });
+    if(!$scope.thing.id) {
+      angular.forEach($scope.remindOpts, function(remindOpt) {
+        if(remindOpt.alias === userPreferences.remindOptAlias) {
+          $scope.thing.remindDate = remindOpt.value;
+        }
+      });
+    }
 
     $scope.supportsCamera = function() {
       return camera.supportsCamera();
