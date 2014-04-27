@@ -3,7 +3,7 @@
   <button class="button button-icon icon ion-plus" ng-click="add()"></button>
 </ion-header-bar>
 <ion-content>
-  <div ng-hide="things.length" class="intro padding">
+  <div ng-hide="things.items.length" class="intro padding">
     <h2>Welcome!</h2>
     <p>
       Haven't used that snowboard in years?
@@ -21,7 +21,7 @@
     </p>
   </div>
   <ion-list item-type="item" can-delete="true" class="thing-list">
-    <ion-item ng-repeat="thing in things | orderBy:'created'">
+    <ion-item ng-repeat="thing in things.items | orderBy:'created'">
       <div ng-click="edit(thing.id)" class="image-container">
         <img ng-src="{{ thing.image }}">
         <div class="title">
@@ -35,8 +35,8 @@
     </ion-item>
     <div class="item">
       <button ng-click="add()" class="button button-block button-positive button-outline button-thing-add ion-plus-circled">
-        <span ng-show="things.length">Add more stuff</span>
-        <span ng-hide="things.length">Add some stuff</span>
+        <span ng-show="things.items.length">Add more stuff</span>
+        <span ng-hide="things.items.length">Add some stuff</span>
       </button>
     </div>
   </ion-list>

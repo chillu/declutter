@@ -3,7 +3,7 @@
 angular.module('declutter')
   .controller('MainCtrl', function ($scope, $location, thingsCollection, localNotification) {
     $scope.things = thingsCollection;
-    $scope.$watch('things');
+    $scope.$watch('things.items');
 
     $scope.add = function() {
       $location.path('/add');
@@ -13,7 +13,7 @@ angular.module('declutter')
       $location.path('/edit/' + id);
     };
 
-    if(localNotification) {
+    if(localNotification.isSupported()) {
       localNotification.onclick = function (id) {
         $location.path('/edit/' + id);
       };

@@ -32,14 +32,82 @@ angular
         redirectTo: '/'
       });
   })
-  .factory('thingsCollection', function($localStorage) {
+  .service('thingsCollection', function($localStorage, moment, uidGenerator, localNotification) {
+    var self = this;
+
     if($localStorage.things === undefined) {
       $localStorage.things = [];
     }
 
-    return $localStorage.things;
+    this.items = $localStorage.things;
+
+    var createNotification = function(item) {
+      var timeSpan = moment(item.created).from(item.remindDate, true), title = item.title || 'something';
+
+        item.remindMessage = 'Time to decide! ' +
+           'It\'s been ' + timeSpan + ' since you added "' + title + '" to Declutter. ' +
+           'Keep it, or get rid of it?';
+
+        localNotification.add({
+          id: item.id,
+          message: item.remindMessage,
+          date: new Date(moment(item.remindDate)),
+          // autoCancel: true,
+          badge: 1
+        });
+
+        console.log('Adding/updating reminder for ' + item.id + ' (' + moment(item.remindDate).format() + ')');
+    };
+
+    this.create = function(data) {
+      return angular.extend({
+        'created': moment()
+      }, data);
+    };
+
+    this.add = function(item) {
+      if(!item.id) {
+        item.id = uidGenerator.generate();
+      }
+      self.items.push(item);
+    };
+
+    this.remove = function(itemToRemove) {
+      angular.forEach(self.items, function(item, i) {
+        if(item.id === itemToRemove.id) {
+          if(localNotification.isSupported()) {
+            localNotification.cancel(item.id);
+          }
+          self.items.splice(i,1);
+        }
+      });
+    };
+
+    this.save = function(item) {
+      // Set or update local notification reminder
+      if(localNotification.isSupported()) {
+        localNotification.cancel(item.id);
+        if(item.remindDate) {
+          createNotification(item);
+        } else {
+          delete item.remindMessage;
+        }
+      }
+    };
+
+    this.findByKey = function(key, val) {
+      var match;
+      angular.forEach(self.items, function(item) {
+        if(!match && item[key] === val) {
+          match = item;
+        }
+      });
+      return match;
+    };
+
+    return this;
   })
-  .factory('userPreferences', function($localStorage) {
+  .service('userPreferences', function($localStorage) {
     if($localStorage.preferences === undefined) {
       $localStorage.preferences = {
         'remindDayOfWeek': 'Sunday',
@@ -50,7 +118,7 @@ angular
 
     return $localStorage.preferences;
   })
-  .factory('uidGenerator', function() {
+  .service('uidGenerator', function() {
     return {
       /**
        * Pseudo UID generator, copied from backBone.localstorage.
@@ -71,7 +139,7 @@ angular
       $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file):|data:image\/|filesystem:/);
     }
   ])
-  .factory('camera', function($rootScope, $q, fileSystem) {
+  .service('camera', function($rootScope, $q, fileSystem) {
     return {
       supportsCamera: function() {
         return (navigator.camera !== undefined);
@@ -139,7 +207,12 @@ angular
     };
   })
   .factory('localNotification', function($window) {
-    return angular.isDefined($window.plugin) ? $window.plugin.notification.local : null;
+    return angular.extend(
+      angular.isDefined($window.plugin) ? $window.plugin.notification.local : {},
+      {
+        isSupported: function() {return angular.isDefined($window.plugin);}
+      }
+    );
   });
 
 angular.element(document).ready(function() {
