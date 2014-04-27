@@ -7,14 +7,13 @@
 <ion-content>
     <form name="editform">
         <div class="list">
-            <div class="item item-input" ng-hide="thing.image">
-                <div class="button-bar button-bar-image-trigger">
-                    <button ng-click="getPicture('CAMERA')" class="button button-large-icon ion-camera">
-                        Take a photo
-                    </button>
-                    <button ng-click="getPicture('PHOTOLIBRARY')" class="button button-large-icon ion-images">
-                        Choose from library
-                    </button>
+            <div class="item item-input padding" ng-hide="thing.image">
+                <div class="image-trigger" ng-click="getPicture('CAMERA')">
+                    <i class="icon ion-camera"></i>
+                    <span class="image-trigger-camera">Take a photo</span>
+                    <a ng-click="getPicture('PHOTOLIBRARY')" class="image-trigger-library">
+                        ... or choose from library
+                    </a>
                 </div>
             </div>
             <div class="item image-container" ng-show="thing.image">

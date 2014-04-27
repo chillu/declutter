@@ -20,6 +20,32 @@ $calm: lighten($positive, 10%);
     }
 }
 
+.image-trigger {
+    width: 100%;
+    height: 140px;
+    padding: 20px;
+    border: 2px dashed $dark;
+    background-color: $stable;
+    @include border-radius(10px);
+    text-align: center;
+
+    & > * {
+        display: block;
+    }
+
+    .image-trigger-camera {
+    }
+
+    .image-trigger-library {
+        padding-top: 20px;
+        font-size: $font-size-small;
+    }
+
+    .icon {
+        font-size: 50px;
+    }
+}
+
 .image-container {
     display: block;
     width: 100%;
