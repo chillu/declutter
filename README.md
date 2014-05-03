@@ -1,5 +1,7 @@
 # Declutter Web Application
 
+[![Build Status](https://travis-ci.org/chillu/declutter.svg)](https://travis-ci.org/chillu/declutter)
+
 ## Installation
 
  * Install [node](http://nodejs.org) through its installer

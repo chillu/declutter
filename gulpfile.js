@@ -68,6 +68,19 @@ gulp.task('phonegap', function () {
         .pipe(gulp.dest('www'));
 });
 
+gulp.task('test', function() {
+  return gulp.src([
+      'tests/*.js'
+    ])
+    .pipe($.karma({
+      configFile: 'test/karma.conf.js',
+      action: 'run'
+    }))
+    .on('error', function(err) {
+      throw err;
+    });
+});
+
 gulp.task('clean', function () {
     return gulp.src(['www'], { read: false }).pipe($.clean());
 });
