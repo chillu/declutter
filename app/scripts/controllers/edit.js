@@ -38,8 +38,8 @@ angular.module('declutter')
     $scope.remindOpts = [
       {
         'title': 'in a minute',
-        'alias': '20s',
-        'value': moment().add('seconds', 20)
+        'alias': 'debug',
+        'value': 'debug'
       },
       {
         'title': 'in a week',
@@ -103,6 +103,10 @@ angular.module('declutter')
     $scope.save = function() {
       if(!$scope.thing.id) {
         $scope.things.add($scope.thing);
+      }
+
+      if($scope.thing.remindDate === 'debug') {
+        $scope.thing.remindDate = moment().add('seconds', 20);
       }
 
       $scope.things.save($scope.thing);
