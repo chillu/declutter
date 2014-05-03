@@ -222,6 +222,26 @@ angular
         isSupported: function() {return angular.isDefined($window.plugin);}
       }
     );
+  })
+  .run(function($location, localNotification, thingsCollection, moment) {
+    if(localNotification.isSupported()) {
+
+      // Cancel all notifications which are older than the current date
+      localNotification.getScheduledIds(function(ids) {
+        angular.forEach(ids, function(id) {
+          var thing = thingsCollection.findByKey('id', id);
+          if(!thing || thing && (!thing.remindDate) || moment(thing.remindDate).isBefore(moment())) {
+            localNotification.cancel(id);
+          }
+        });
+      });
+
+      // Listen to app launches caused by clicking on a notification
+      localNotification.onclick = function(id, state, json) {
+        localNotification.cancel(id);
+        $location.path('/edit/' + id);
+      };
+    }
   });
 
 angular.element(document).ready(function() {
