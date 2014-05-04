@@ -39,7 +39,9 @@ module.exports = function(config){
     logLevel: config.LOG_DEBUG,
     sauceLabs: {
       startConnect: false,
-      testName: 'Declutter Unit Tests'
+      testName: 'Declutter Unit Tests',
+      build: process.env.TRAVIS_BUILD_NUMBER,
+      tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER
     },
     captureTimeout: 120000,
     customLaunchers: customLaunchers,
