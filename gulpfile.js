@@ -74,7 +74,7 @@ gulp.task('test', function() {
       'tests/*.js'
     ])
     .pipe($.karma({
-      configFile: 'test/karma.unit.conf.js',
+      configFile: 'test/karma.conf.js',
       action: 'run'
     }))
     .on('error', function(err) {
