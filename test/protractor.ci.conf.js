@@ -9,14 +9,15 @@ exports.config = {
 
   exclude: [],
 
-  seleniumAddress: 'http://localhost:4445/wd/hub',
-
   capabilities: {
+      'name': 'Declutter End-to-End Tests',
       'browserName': 'chrome',
       'chromeOptions': {
         'args': ['--unlimited-storage'],
         'extensions': []
-      }
+      },
+      'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+      'build': process.env.TRAVIS_BUILD_NUMBER
     },
 
   baseUrl: 'http://localhost:' + (process.env.HTTP_PORT || '9000'),
