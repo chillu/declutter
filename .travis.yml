@@ -20,4 +20,4 @@ script:
   - node_modules/karma/bin/karma start test/karma.ci.conf.js
   - node_modules/gulp/bin/gulp.js connect &
   - sleep 5
-  - node_modules/protractor/bin/protractor test/protractor.conf.js
+  - node_modules/protractor/bin/protractor test/protractor.ci.conf.js
