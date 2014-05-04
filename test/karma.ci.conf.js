@@ -1,8 +1,20 @@
 module.exports = function(config){
+
+  if (!process.env.SAUCE_USERNAME || !process.env.SAUCE_ACCESS_KEY) {
+    console.log('Make sure the SAUCE_USERNAME and SAUCE_ACCESS_KEY environment variables are set.');
+    process.exit(1);
+  }
+
+  // Browsers to run on Sauce Labs
+  var customLaunchers = {
+    'SL_Chrome': {
+      base: 'SauceLabs',
+      browserName: 'chrome'
+    }
+  };
+
   config.set({
-
     basePath : '../',
-
     files : [
       'app/bower_components/angular/angular.js',
       'app/bower_components/angular-resource/angular-resource.js',
@@ -21,22 +33,17 @@ module.exports = function(config){
       'app/scripts/**/*.js',
       'test/unit/**/*.js'
     ],
-
-    autoWatch : true,
-
     frameworks: ['jasmine'],
-
-    browsers : ['Firefox'],
-
-    plugins : [
-      'karma-firefox-launcher',
-      'karma-jasmine'
-    ],
-
-    junitReporter : {
-      outputFile: 'test_out/unit.xml',
-      suite: 'unit'
-    }
-
+    reporters: ['dots'],
+    colors: true,
+    logLevel: config.LOG_DEBUG,
+    sauceLabs: {
+      startConnect: false,
+      testName: 'Declutter Unit Tests'
+    },
+    captureTimeout: 120000,
+    customLaunchers: customLaunchers,
+    browsers: Object.keys(customLaunchers),
+    singleRun: true
   });
 };

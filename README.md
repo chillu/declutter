@@ -15,6 +15,13 @@
  * Compile phonegap packages: `phonegap build`
  * Compile icons: `gulp icons`
 
+## Testing
+
+ * Install deps: `npm install -g karma-cli && npm install -g protractor`
+ * Install and start Selenium: `webdriver-manager update && webdriver-manager start`
+ * Run unit tests (through [Karma](https://karma-runner.github.io/)): `karma start test/karma.conf.js`
+ * Run integration tests (through [Protractor](https://github.com/angular/protractor)): `protractor test/protractor.conf.js`
+
 ## License
 
 	Copyright (C) 2013 Ingo Schommer

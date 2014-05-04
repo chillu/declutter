@@ -3,18 +3,21 @@ language: node_js
 node_js:
   - '0.10'
 
+env:
+  global:
+    - SAUCE_USERNAME=declutter
+    - SAUCE_ACCESS_KEY=b250d0c5-51a2-42fe-b45a-f957f9d95339
+
 addons:
   sauce_connect:
     username: declutter
     access_key: b250d0c5-51a2-42fe-b45a-f957f9d95339
 
 before_script:
-  - 'bower install'
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+  - bower install
 
 script:
-  - node_modules/karma/bin/karma start test/karma.ci.conf.js --single-run
+  - node_modules/karma/bin/karma start test/karma.ci.conf.js
   - node_modules/gulp/bin/gulp.js connect &
   - sleep 5
   - node_modules/protractor/bin/protractor test/protractor.conf.js
