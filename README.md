@@ -6,7 +6,7 @@
 
  * Install [node](http://nodejs.org) through its installer
  * Install homebrew deps: `brew install imagemagick librsvg`
- * Install phonegap: `sudo npm install -g phonegap`
+ * Install cordova: `sudo npm install -g cordova ios-sim ios-deploy`
  * Install gem deps: `sudo gem install sass`
  * Install node deps: `npm install`
  * Install bower deps: `bower install`
@@ -15,7 +15,8 @@
 
  * Build the project: `gulp build`
  * Run a local webserver: `gulp watch`
- * Compile phonegap packages: `phonegap build`
+ * Compile cordova packages: `cordova build`
+ * Run cordova package on iOS: `cordova emulate ios`
  * Compile icons: `gulp icons`
 
 ## Testing
