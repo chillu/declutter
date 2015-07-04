@@ -2,6 +2,7 @@
 // generated on 2014-04-24 using generator-gulp-webapp 0.0.8
 
 var gulp = require('gulp');
+var mainBowerFiles = require('main-bower-files');
 
 // load plugins
 var $ = require('gulp-load-plugins')();
@@ -54,7 +55,7 @@ gulp.task('images', function () {
 });
 
 gulp.task('fonts', function () {
-    return $.bowerFiles()
+    return gulp.src(mainBowerFiles())
         .pipe($.filter('**/*.{eot,svg,ttf,woff}'))
         .pipe($.flatten())
         .pipe(gulp.dest('app/fonts'))
@@ -63,10 +64,10 @@ gulp.task('fonts', function () {
 });
 
 gulp.task('phonegap', function () {
-    return gulp.src('app/res/**/*')
-        .pipe(gulp.dest('www/res'))
-        .pipe(gulp.src('app/config.xml'))
-        .pipe(gulp.dest('www'));
+    gulp.src('app/res/**/*')
+        .pipe(gulp.dest('www/res'));
+    return gulp.src('app/config.xml')
+        .pipe(gulp.dest('www/'));
 });
 
 gulp.task('test', function() {
