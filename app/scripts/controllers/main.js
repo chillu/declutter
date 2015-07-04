@@ -20,5 +20,5 @@ angular.module('declutter')
       localNotification.ontrigger = function (id) {
         $location.path('/edit/' + id);
       };
-    };
+    }
   });

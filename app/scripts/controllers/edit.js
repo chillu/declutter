@@ -3,7 +3,7 @@
 angular.module('declutter')
   .controller('EditCtrl', function (
     $scope,
-    $routeParams,
+    $stateParams,
     $location,
     $timeout,
     $window,
@@ -27,8 +27,8 @@ angular.module('declutter')
     $scope.$watch('things.items');
 
     // Set current item
-    if($routeParams.id) {
-      $scope.thing = $scope.things.findByKey('id', $routeParams.id);
+    if($stateParams.id) {
+      $scope.thing = $scope.things.findByKey('id', $stateParams.id);
     } else {
       $scope.thing = $scope.things.create();
     }

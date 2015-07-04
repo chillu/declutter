@@ -8,28 +8,29 @@ angular
   .module('declutter', [
     'ngCookies',
     'ngSanitize',
-    'ngRoute',
     'ngStorage',
     'fileSystem',
     'angularMoment',
     'ionic'
   ])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
+  .config(function ($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/');
+
+    $stateProvider
+      .state('home', {
+        url: '/',
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/edit/:id', {
+      .state('edit', {
+        url: '/edit/:id',
         templateUrl: 'views/edit.html',
         controller: 'EditCtrl'
       })
-      .when('/add', {
+      .state('add', {
+        url: '/add',
         templateUrl: 'views/edit.html',
         controller: 'EditCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
       });
   })
   .filter('inPast', function(moment) {
@@ -237,7 +238,7 @@ angular
       });
 
       // Listen to app launches caused by clicking on a notification
-      localNotification.onclick = function(id, state, json) {
+      localNotification.onclick = function(id) {
         localNotification.cancel(id);
         $location.path('/edit/' + id);
       };
