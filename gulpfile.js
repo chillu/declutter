@@ -25,22 +25,17 @@ gulp.task('scripts', function () {
 });
 
 gulp.task('html', ['styles', 'scripts'], function () {
-    var jsFilter = $.filter('**/*.js');
-    var cssFilter = $.filter('**/*.css');
+  var assets = $.useref.assets({searchPath: ['.tmp', 'app', '.']});
 
-    return gulp.src('app/**/*.html')
-        .pipe($.useref.assets())
-        .pipe(jsFilter)
-        .pipe($.ngmin())
-        .pipe($.uglify({mangle: false}))
-        .pipe(jsFilter.restore())
-        .pipe(cssFilter)
-        .pipe($.csso())
-        .pipe(cssFilter.restore())
-        .pipe($.useref.restore())
-        .pipe($.useref())
-        .pipe(gulp.dest('www'))
-        .pipe($.size());
+  return gulp.src('app/**/*.html')
+    .pipe(assets)
+    .pipe($.if('*.js', $.ngmin()))
+    .pipe($.if('*.js', $.uglify({mangle: false})))
+    .pipe($.if('*.css', $.minifyCss({compatibility: '*'})))
+    .pipe(assets.restore())
+    .pipe($.useref())
+    .pipe($.if('*.html', $.minifyHtml({conditionals: true, loose: true})))
+    .pipe(gulp.dest('www'));
 });
 
 gulp.task('images', function () {
