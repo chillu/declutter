@@ -95,6 +95,9 @@
         },
         "de.appplant.cordova.plugin.local-notification": {
             "PACKAGE_NAME": "com.chillu.declutter"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.chillu.declutter"
         }
     },
     "dependent_plugins": {}
