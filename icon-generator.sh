@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 usage() {
 	echo "usage: $0 icon_path splash_path colour [dest_dir]";
 	exit 1;
