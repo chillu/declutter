@@ -5,8 +5,11 @@
 ## Installation
 
  * Install [node](http://nodejs.org) through its installer
- * Install other dependencies through homebrew: `brew install imagemagick librsvg`
- * Install node deps: `npm install --dev && bower install`
+ * Install homebrew deps: `brew install imagemagick librsvg`
+ * Install phonegap: `sudo npm install -g phonegap`
+ * Install gem deps: `sudo gem install sass`
+ * Install node deps: `npm install`
+ * Install bower deps: `bower install`
 
 ## Usage
 
@@ -24,7 +27,7 @@
 
 ## License
 
-	Copyright (C) 2013 Ingo Schommer
+	Copyright (C) 2013-2015 Ingo Schommer
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
