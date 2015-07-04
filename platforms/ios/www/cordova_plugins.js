@@ -1,127 +1,127 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/de.appplant.cordova.plugin.local-notification/www/local-notification.js",
-        "id": "de.appplant.cordova.plugin.local-notification.LocalNotification",
-        "clobbers": [
-            "plugin.notification.local"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.camera/www/CameraConstants.js",
-        "id": "org.apache.cordova.camera.Camera",
+        "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
+        "id": "cordova-plugin-camera.Camera",
         "clobbers": [
             "Camera"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.camera/www/CameraPopoverOptions.js",
-        "id": "org.apache.cordova.camera.CameraPopoverOptions",
+        "file": "plugins/cordova-plugin-camera/www/CameraPopoverOptions.js",
+        "id": "cordova-plugin-camera.CameraPopoverOptions",
         "clobbers": [
             "CameraPopoverOptions"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.camera/www/Camera.js",
-        "id": "org.apache.cordova.camera.camera",
+        "file": "plugins/cordova-plugin-camera/www/Camera.js",
+        "id": "cordova-plugin-camera.camera",
         "clobbers": [
             "navigator.camera"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.camera/www/ios/CameraPopoverHandle.js",
-        "id": "org.apache.cordova.camera.CameraPopoverHandle",
+        "file": "plugins/cordova-plugin-camera/www/ios/CameraPopoverHandle.js",
+        "id": "cordova-plugin-camera.CameraPopoverHandle",
         "clobbers": [
             "CameraPopoverHandle"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/DirectoryEntry.js",
-        "id": "org.apache.cordova.file.DirectoryEntry",
+        "file": "plugins/cordova-plugin-device/www/device.js",
+        "id": "cordova-plugin-device.device",
+        "clobbers": [
+            "device"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-file/www/DirectoryEntry.js",
+        "id": "cordova-plugin-file.DirectoryEntry",
         "clobbers": [
             "window.DirectoryEntry"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/DirectoryReader.js",
-        "id": "org.apache.cordova.file.DirectoryReader",
+        "file": "plugins/cordova-plugin-file/www/DirectoryReader.js",
+        "id": "cordova-plugin-file.DirectoryReader",
         "clobbers": [
             "window.DirectoryReader"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/Entry.js",
-        "id": "org.apache.cordova.file.Entry",
+        "file": "plugins/cordova-plugin-file/www/Entry.js",
+        "id": "cordova-plugin-file.Entry",
         "clobbers": [
             "window.Entry"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/File.js",
-        "id": "org.apache.cordova.file.File",
+        "file": "plugins/cordova-plugin-file/www/File.js",
+        "id": "cordova-plugin-file.File",
         "clobbers": [
             "window.File"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/FileEntry.js",
-        "id": "org.apache.cordova.file.FileEntry",
+        "file": "plugins/cordova-plugin-file/www/FileEntry.js",
+        "id": "cordova-plugin-file.FileEntry",
         "clobbers": [
             "window.FileEntry"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/FileError.js",
-        "id": "org.apache.cordova.file.FileError",
+        "file": "plugins/cordova-plugin-file/www/FileError.js",
+        "id": "cordova-plugin-file.FileError",
         "clobbers": [
             "window.FileError"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/FileReader.js",
-        "id": "org.apache.cordova.file.FileReader",
+        "file": "plugins/cordova-plugin-file/www/FileReader.js",
+        "id": "cordova-plugin-file.FileReader",
         "clobbers": [
             "window.FileReader"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/FileSystem.js",
-        "id": "org.apache.cordova.file.FileSystem",
+        "file": "plugins/cordova-plugin-file/www/FileSystem.js",
+        "id": "cordova-plugin-file.FileSystem",
         "clobbers": [
             "window.FileSystem"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/FileUploadOptions.js",
-        "id": "org.apache.cordova.file.FileUploadOptions",
+        "file": "plugins/cordova-plugin-file/www/FileUploadOptions.js",
+        "id": "cordova-plugin-file.FileUploadOptions",
         "clobbers": [
             "window.FileUploadOptions"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/FileUploadResult.js",
-        "id": "org.apache.cordova.file.FileUploadResult",
+        "file": "plugins/cordova-plugin-file/www/FileUploadResult.js",
+        "id": "cordova-plugin-file.FileUploadResult",
         "clobbers": [
             "window.FileUploadResult"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/FileWriter.js",
-        "id": "org.apache.cordova.file.FileWriter",
+        "file": "plugins/cordova-plugin-file/www/FileWriter.js",
+        "id": "cordova-plugin-file.FileWriter",
         "clobbers": [
             "window.FileWriter"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/Flags.js",
-        "id": "org.apache.cordova.file.Flags",
+        "file": "plugins/cordova-plugin-file/www/Flags.js",
+        "id": "cordova-plugin-file.Flags",
         "clobbers": [
             "window.Flags"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/LocalFileSystem.js",
-        "id": "org.apache.cordova.file.LocalFileSystem",
+        "file": "plugins/cordova-plugin-file/www/LocalFileSystem.js",
+        "id": "cordova-plugin-file.LocalFileSystem",
         "clobbers": [
             "window.LocalFileSystem"
         ],
@@ -130,55 +130,90 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/Metadata.js",
-        "id": "org.apache.cordova.file.Metadata",
+        "file": "plugins/cordova-plugin-file/www/Metadata.js",
+        "id": "cordova-plugin-file.Metadata",
         "clobbers": [
             "window.Metadata"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/ProgressEvent.js",
-        "id": "org.apache.cordova.file.ProgressEvent",
+        "file": "plugins/cordova-plugin-file/www/ProgressEvent.js",
+        "id": "cordova-plugin-file.ProgressEvent",
         "clobbers": [
             "window.ProgressEvent"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/requestFileSystem.js",
-        "id": "org.apache.cordova.file.requestFileSystem",
+        "file": "plugins/cordova-plugin-file/www/fileSystems.js",
+        "id": "cordova-plugin-file.fileSystems"
+    },
+    {
+        "file": "plugins/cordova-plugin-file/www/requestFileSystem.js",
+        "id": "cordova-plugin-file.requestFileSystem",
         "clobbers": [
             "window.requestFileSystem"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/resolveLocalFileSystemURI.js",
-        "id": "org.apache.cordova.file.resolveLocalFileSystemURI",
+        "file": "plugins/cordova-plugin-file/www/resolveLocalFileSystemURI.js",
+        "id": "cordova-plugin-file.resolveLocalFileSystemURI",
         "merges": [
             "window"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/ios/FileSystem.js",
-        "id": "org.apache.cordova.file.iosFileSystem",
+        "file": "plugins/cordova-plugin-file/www/ios/FileSystem.js",
+        "id": "cordova-plugin-file.iosFileSystem",
         "merges": [
-            "window.FileSystem"
+            "FileSystem"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.device/www/device.js",
-        "id": "org.apache.cordova.device.device",
+        "file": "plugins/cordova-plugin-file/www/fileSystems-roots.js",
+        "id": "cordova-plugin-file.fileSystems-roots",
+        "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-file/www/fileSystemPaths.js",
+        "id": "cordova-plugin-file.fileSystemPaths",
+        "merges": [
+            "cordova"
+        ],
+        "runs": true
+    },
+    {
+        "file": "plugins/de.appplant.cordova.plugin.local-notification/www/local-notification.js",
+        "id": "de.appplant.cordova.plugin.local-notification.LocalNotification",
         "clobbers": [
-            "device"
+            "cordova.plugins.notification.local",
+            "plugin.notification.local"
+        ]
+    },
+    {
+        "file": "plugins/de.appplant.cordova.plugin.local-notification/www/local-notification-core.js",
+        "id": "de.appplant.cordova.plugin.local-notification.LocalNotification.Core",
+        "clobbers": [
+            "cordova.plugins.notification.local.core",
+            "plugin.notification.local.core"
+        ]
+    },
+    {
+        "file": "plugins/de.appplant.cordova.plugin.local-notification/www/local-notification-util.js",
+        "id": "de.appplant.cordova.plugin.local-notification.LocalNotification.Util",
+        "merges": [
+            "cordova.plugins.notification.local.core",
+            "plugin.notification.local.core"
         ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "de.appplant.cordova.plugin.local-notification": "0.8.0dev",
-    "org.apache.cordova.camera": "0.2.10-dev",
-    "org.apache.cordova.file": "1.1.1-dev",
-    "org.apache.cordova.device": "0.2.10-dev"
+    "cordova-plugin-camera": "1.2.0",
+    "cordova-plugin-device": "1.0.1",
+    "cordova-plugin-file": "2.1.0",
+    "de.appplant.cordova.plugin.local-notification": "0.8.2dev",
+    "cordova-plugin-whitelist": "1.0.0"
 }
 // BOTTOM OF METADATA
 });

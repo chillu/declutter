@@ -81,8 +81,5 @@
 
     <!-- Remote PhoneGap building directives (not used at the moment) -->
     <gap:platform name="ios" />
-    <gap:plugin name="org.apache.cordova.camera" />
-    <gap:plugin name="org.apache.cordova.file" />
-    <gap:plugin name="de.appplant.cordova.plugin.local-notification" />
 
 </widget>
